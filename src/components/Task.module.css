@@ -1,0 +1,60 @@
+.task {
+    display: flex;
+    margin-top: -1.75rem;
+}
+
+.task input[type='text'] {
+    background: var(--gray-500);
+    color: var(--gray-300);
+    font-size: 1rem;
+    line-height: 1.4;
+    vertical-align: middle;
+    padding-left: 1rem;
+
+    width: 40rem;
+    height: 3.5rem;
+    border: 0;
+    resize: none;
+    border-radius: 8px;
+}
+
+.task input[type='text']:focus {
+    box-shadow: 0 0 0 2px var(--purple-dark);
+    color: var(--gray-100);
+}
+
+.task footer {
+    padding-left: 0.5rem;
+}
+
+.task button[type='submit'] {
+    background-color: var(--blue-dark);
+    color: var(--gray-100);
+    font-size: 0.875rem;
+    font-weight: bold;
+
+    width: 7rem;
+    height: 3.5rem;
+    border: 0;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.2s;
+}
+
+.task button[type='submit']:not(:disabled):hover {
+    background-color: var(--blue);
+    cursor: pointer;
+}
+
+.task button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.task button[type='submit'] span{
+    padding-right: 0.5rem;
+}

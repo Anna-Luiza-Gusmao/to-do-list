@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Ignite Feed" src="./.github/capa.png" width="100%">
+  <img alt="To Do List" src="./.github/capa.png" width="100%">
 </p>
 
 ## 💻 Projeto
