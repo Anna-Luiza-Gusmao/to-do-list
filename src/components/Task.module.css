@@ -1,6 +1,7 @@
 .task {
     display: flex;
     margin-top: -1.75rem;
+    margin-bottom: 5.75rem;
 }
 
 .task input[type='text'] {
