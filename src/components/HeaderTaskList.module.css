@@ -1,5 +1,6 @@
 .headerTaskList {
     width: 47.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .headerTaskList header {
@@ -27,11 +28,4 @@
 .contentParagraphConcluidas p {
     color: var(--purple);
     padding-right: 0.5rem;
-}
-
-.line {
-    margin-top: 1.5rem;
-    border: 0;
-    border-top: 1px solid var(--gray-300);
-    opacity: 0.3;
 }

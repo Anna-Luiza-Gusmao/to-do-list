@@ -1,19 +1,22 @@
 import styles from "./HeaderTaskList.module.css"
 
-export function HeaderTaskList () {
+interface NumberOfTasks {
+    quantTasks: number
+}
+
+export function HeaderTaskList ({quantTasks}:NumberOfTasks) {
     return (
         <div className={styles.headerTaskList}>
             <header>
                 <div className={styles.contentParagraphCriadas}>
                     <p>Tarefas criadas</p>
-                    <span>0</span>
+                    <span>{quantTasks}</span>
                 </div>
                 <div className={styles.contentParagraphConcluidas}>
                     <p>Concluídas</p>
                     <span>0</span>
                 </div>
             </header>
-            <hr className={styles.line}></hr>
         </div>
     )
 }

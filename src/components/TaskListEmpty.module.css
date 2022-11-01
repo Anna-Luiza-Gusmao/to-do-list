@@ -1,0 +1,26 @@
+.taskListEmpty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--gray-400);
+}
+
+.line {
+    margin-top: 1.5rem;
+    margin-bottom: 4rem;
+    border: 0;
+    border-top: 1px solid var(--gray-300);
+    opacity: 0.3;
+}
+
+.taskListEmpty footer {
+    margin-top: 1rem;
+
+    color: var(--gray-300);
+    font-size: 1rem;
+}
+
+.taskListEmpty footer > p {
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+}
