@@ -1,6 +1,5 @@
 import styles from "./TaskList.module.css"
 import { Trash } from "phosphor-react"
-import { useState } from "react"
 
 interface ContentTask {
     content: string

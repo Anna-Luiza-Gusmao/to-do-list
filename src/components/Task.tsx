@@ -12,6 +12,8 @@ export function Task () {
 
         setTask([...task, newTask]);
         setNewTask("");
+
+        console.log(task)
     }
 
     function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>){
