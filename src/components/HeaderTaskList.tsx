@@ -14,7 +14,7 @@ export function HeaderTaskList ({quantTasks}:NumberOfTasks) {
                 </div>
                 <div className={styles.contentParagraphConcluidas}>
                     <p>Concluídas</p>
-                    <span>0</span>
+                    <span>0 de {quantTasks}</span>
                 </div>
             </header>
         </div>

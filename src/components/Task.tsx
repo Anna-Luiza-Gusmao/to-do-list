@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState, useEffect, InvalidEvent } from "react
 import { HeaderTaskList } from "./HeaderTaskList"
 import { Trash } from "phosphor-react"
 import { TaskListEmpty } from "./TaskListEmpty"
+import { TaskList } from "./TaskList"
 
 interface Tasks {
     id: number,
@@ -15,6 +16,8 @@ export function Task () {
 
     const [newTask, setNewTask] = useState("")
 
+    const [stateDeleteTask, setNewStateDeleteTask] = useState(Boolean)
+
     const isNewTaskEmpty = newTask.length === 0;
     const numberOfTasks = tasks.length;
 
@@ -23,11 +26,12 @@ export function Task () {
         const data = await response.json();
 
         setTasks(data);
+        setNewStateDeleteTask(false);
     }
 
     useEffect (() => {
         loadTasks();
-    }, [newTask])
+    }, [newTask, stateDeleteTask])
 
     async function postTask(content: string){
         fetch('http://localhost:3000/task', {
@@ -55,8 +59,19 @@ export function Task () {
         event.target.setCustomValidity("Esse campo é obrigatório") 
     }
 
-    function onDeleteTask(){
-        console.log("Apagou")
+    async function onDeleteTask(id: number) {
+        let url = `http://localhost:3000/task/${id}`;
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        }).then(data => data.json())
+        
+        setTasks(tasks);
+        setNewStateDeleteTask(true);
     }
 
     return (
@@ -86,19 +101,13 @@ export function Task () {
 
             {
                 numberOfTasks == 0 ? <TaskListEmpty />
-                    : <section className={styles.taskList}>
-                        {tasks.map((task) => (
-                            <div className={styles.contentTasks} key={task.id}>
-                                <label>
-                                    <input id="checkboxTask" type="checkbox" name="check"></input>     
-                                    {task.content}
-                                </label>
-                                <button onClick={onDeleteTask}>
-                                    <Trash size={24} />
-                                </button>
-                            </div>
-                        ))}
-                    </section>
+                    : tasks.map((task) => (
+                        <TaskList key={task.id}
+                            idTasks={task.id}
+                            contentTasks={task.content}
+                            onDeleteTask={onDeleteTask}
+                        />
+                    ))
             }
         </main>
     )
