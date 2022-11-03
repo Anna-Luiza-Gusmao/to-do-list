@@ -1,14 +1,14 @@
 import styles from "./Task.module.css"
 import { PlusCircle } from "phosphor-react"
-import { ChangeEvent, FormEvent, useState, useEffect, InvalidEvent } from "react"
+import { ChangeEvent, FormEvent, useState, useEffect } from "react"
 import { HeaderTaskList } from "./HeaderTaskList"
-import { Trash } from "phosphor-react"
 import { TaskListEmpty } from "./TaskListEmpty"
 import { TaskList } from "./TaskList"
 
 interface Tasks {
     id: number,
-    content: string
+    content: string,
+    isComplete: boolean
 }
 
 export function Task () {
@@ -18,8 +18,32 @@ export function Task () {
 
     const [stateDeleteTask, setNewStateDeleteTask] = useState(Boolean)
 
+    const [stateOfCheckbox, setStateOfCheckbox] = useState(false)
+    //const [stateDecorationOfCheckbox, setStateDecorationOfCheckbox] = useState('line')
+
+    function handleAlterCheckbox (id: number, state: boolean) {
+        setStateOfCheckbox(!state);
+        console.log(stateOfCheckbox)
+
+        let url = `http://localhost:3000/task/${id}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content: "ana", isComplete: stateOfCheckbox })
+        }).then(data => data.json())
+    }
+
     const isNewTaskEmpty = newTask.length === 0;
     const numberOfTasks = tasks.length;
+    
+    let numberOfCompleteTasks = 0;
+    tasks.map((task) => {
+        if(task.isComplete === true){
+            numberOfCompleteTasks = numberOfCompleteTasks + 1;
+        }
+    });
 
     async function loadTasks() {
         const response = await fetch('http://localhost:3000/task');
@@ -27,36 +51,33 @@ export function Task () {
 
         setTasks(data);
         setNewStateDeleteTask(false);
+        setStateOfCheckbox(!stateOfCheckbox);
     }
 
     useEffect (() => {
         loadTasks();
     }, [newTask, stateDeleteTask])
 
-    async function postTask(content: string){
+    async function postTask(content: string, isComplete: boolean){
         fetch('http://localhost:3000/task', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ content })
+            body: JSON.stringify({ content, isComplete })
         }).then(data => data.json())
     }
 
     function handleCreateNewTask(event: FormEvent){
         event.preventDefault();
 
-        postTask(newTask);
+        postTask(newTask, stateOfCheckbox);
         setNewTask("");
     }
 
     function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>){
         event.target.setCustomValidity("")
         setNewTask(event.target.value)
-    }
-
-    function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>){
-        event.target.setCustomValidity("Esse campo é obrigatório") 
     }
 
     async function onDeleteTask(id: number) {
@@ -82,7 +103,6 @@ export function Task () {
                     placeholder="Adicione uma nova tarefa" 
                     value={newTask}
                     onChange={handleNewTaskChange}
-                    onInvalid={handleNewTaskInvalid}
                     required
                 />
 
@@ -97,6 +117,7 @@ export function Task () {
 
             <HeaderTaskList 
                 quantTasks={numberOfTasks}
+                quantCompleteTasks={numberOfCompleteTasks}
             />
 
             {
@@ -105,7 +126,9 @@ export function Task () {
                         <TaskList key={task.id}
                             idTasks={task.id}
                             contentTasks={task.content}
+                            isComplete={task.isComplete}
                             onDeleteTask={onDeleteTask}
+                            onAlterCheckbox={handleAlterCheckbox}
                         />
                     ))
             }

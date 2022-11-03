@@ -30,8 +30,12 @@
     box-shadow: 0 0 0 0;
 }
 
-.contentTasks input[type="checkbox"]:checked{
+.line{
     text-decoration: line-through;
+}
+
+.noLine{
+    text-decoration: none;
 }
 
 .contentTasks label {
