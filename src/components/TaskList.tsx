@@ -1,18 +1,30 @@
-import styles from "./TaskList.module.css"
+import "./TaskList.css"
 import { Trash } from "phosphor-react"
+import { useState } from "react"
 
 interface TasksProps {
     idTasks: number,
     contentTasks: string,
-    isComplete: boolean,
-    onDeleteTask: (id: number) => void,
-    onAlterCheckbox: (id: number, state: boolean) => void
+    onDeleteTask: (id: number) => void
 }
 
-export function TaskList ({idTasks, contentTasks, isComplete, onDeleteTask, onAlterCheckbox}:TasksProps) {
+export function TaskList ({idTasks, contentTasks, onDeleteTask}:TasksProps) {
+    let quantCompleteTasks = 0;
 
-    function handleAlterCheckbox () {
-        onAlterCheckbox(idTasks, isComplete);
+    const [stateOfCheckbox, setStateOfCheckbox] = useState(Boolean)
+    const [stateDecorationOfCheckbox, setStateDecorationOfCheckbox] = useState('noLine')
+    const [valueCompleteTasks, setValueCompleteTasks] = useState(Number)
+
+    function handleCheckbox () {
+        setStateOfCheckbox(!stateOfCheckbox);
+
+        stateOfCheckbox === false ? (
+            setStateDecorationOfCheckbox('line'),
+            quantCompleteTasks++,
+            setValueCompleteTasks(quantCompleteTasks)
+        ) : setStateDecorationOfCheckbox('noLine')
+
+        console.log(valueCompleteTasks)
     }
 
     function handleDeleteTask() {
@@ -20,15 +32,17 @@ export function TaskList ({idTasks, contentTasks, isComplete, onDeleteTask, onAl
     }
 
     return (
-        <section className={styles.taskList}>
-                <div className={styles.contentTasks} key={idTasks}>
+        <section className="taskList">
+                <div className="contentTasks" key={idTasks}>
                     <label>
                         <input 
                             type="checkbox" 
                             id="checkbox"
-                            onClick={handleAlterCheckbox}
+                            value={idTasks}
+                            checked={stateOfCheckbox}
+                            onChange={handleCheckbox}
                         ></input>     
-                        <p className={styles.noLine}>{contentTasks}</p>
+                        <p className={stateDecorationOfCheckbox}>{contentTasks}</p>
                     </label>
                     <button onClick={handleDeleteTask}>
                         <Trash size={24} />

@@ -7,8 +7,7 @@ import { TaskList } from "./TaskList"
 
 interface Tasks {
     id: number,
-    content: string,
-    isComplete: boolean
+    content: string
 }
 
 export function Task () {
@@ -18,32 +17,10 @@ export function Task () {
 
     const [stateDeleteTask, setNewStateDeleteTask] = useState(Boolean)
 
-    const [stateOfCheckbox, setStateOfCheckbox] = useState(false)
-    //const [stateDecorationOfCheckbox, setStateDecorationOfCheckbox] = useState('line')
-
-    function handleAlterCheckbox (id: number, state: boolean) {
-        setStateOfCheckbox(!state);
-        console.log(stateOfCheckbox)
-
-        let url = `http://localhost:3000/task/${id}`;
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ content: "ana", isComplete: stateOfCheckbox })
-        }).then(data => data.json())
-    }
-
     const isNewTaskEmpty = newTask.length === 0;
     const numberOfTasks = tasks.length;
     
     let numberOfCompleteTasks = 0;
-    tasks.map((task) => {
-        if(task.isComplete === true){
-            numberOfCompleteTasks = numberOfCompleteTasks + 1;
-        }
-    });
 
     async function loadTasks() {
         const response = await fetch('http://localhost:3000/task');
@@ -51,27 +28,26 @@ export function Task () {
 
         setTasks(data);
         setNewStateDeleteTask(false);
-        setStateOfCheckbox(!stateOfCheckbox);
     }
 
     useEffect (() => {
         loadTasks();
     }, [newTask, stateDeleteTask])
 
-    async function postTask(content: string, isComplete: boolean){
+    async function postTask(content: string){
         fetch('http://localhost:3000/task', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ content, isComplete })
+            body: JSON.stringify({ content })
         }).then(data => data.json())
     }
 
     function handleCreateNewTask(event: FormEvent){
         event.preventDefault();
 
-        postTask(newTask, stateOfCheckbox);
+        postTask(newTask);
         setNewTask("");
     }
 
@@ -126,9 +102,7 @@ export function Task () {
                         <TaskList key={task.id}
                             idTasks={task.id}
                             contentTasks={task.content}
-                            isComplete={task.isComplete}
                             onDeleteTask={onDeleteTask}
-                            onAlterCheckbox={handleAlterCheckbox}
                         />
                     ))
             }
