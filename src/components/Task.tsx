@@ -1,8 +1,7 @@
 import styles from "./Task.module.css"
 import { PlusCircle } from "phosphor-react"
-import { ChangeEvent, FormEvent, useState, useEffect, InvalidEvent } from "react"
+import { ChangeEvent, FormEvent, useState, useEffect } from "react"
 import { HeaderTaskList } from "./HeaderTaskList"
-import { Trash } from "phosphor-react"
 import { TaskListEmpty } from "./TaskListEmpty"
 import { TaskList } from "./TaskList"
 
@@ -20,6 +19,8 @@ export function Task () {
 
     const isNewTaskEmpty = newTask.length === 0;
     const numberOfTasks = tasks.length;
+    
+    let numberOfCompleteTasks = 0;
 
     async function loadTasks() {
         const response = await fetch('http://localhost:3000/task');
@@ -55,10 +56,6 @@ export function Task () {
         setNewTask(event.target.value)
     }
 
-    function handleNewTaskInvalid(event: InvalidEvent<HTMLInputElement>){
-        event.target.setCustomValidity("Esse campo é obrigatório") 
-    }
-
     async function onDeleteTask(id: number) {
         let url = `http://localhost:3000/task/${id}`;
         fetch(url, {
@@ -82,7 +79,6 @@ export function Task () {
                     placeholder="Adicione uma nova tarefa" 
                     value={newTask}
                     onChange={handleNewTaskChange}
-                    onInvalid={handleNewTaskInvalid}
                     required
                 />
 
@@ -97,6 +93,7 @@ export function Task () {
 
             <HeaderTaskList 
                 quantTasks={numberOfTasks}
+                quantCompleteTasks={numberOfCompleteTasks}
             />
 
             {
@@ -106,6 +103,7 @@ export function Task () {
                             idTasks={task.id}
                             contentTasks={task.content}
                             onDeleteTask={onDeleteTask}
+                            numberOfCompleteTasks={numberOfCompleteTasks}
                         />
                     ))
             }

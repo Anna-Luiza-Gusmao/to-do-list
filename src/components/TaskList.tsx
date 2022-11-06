@@ -1,44 +1,47 @@
-import styles from "./TaskList.module.css"
+import "./TaskList.css"
 import { Trash } from "phosphor-react"
-import { useState } from "react";
+import { useState } from "react"
 
 interface TasksProps {
     idTasks: number,
     contentTasks: string,
-    onDeleteTask: (id: number) => void
+    onDeleteTask: (id: number) => void,
+    numberOfCompleteTasks: number
 }
 
-export function TaskList ({idTasks, contentTasks, onDeleteTask}:TasksProps) {
-    const [checkboxOfTask, setCheckboxOfTask] = useState(Boolean)
+export function TaskList ({idTasks, contentTasks, onDeleteTask, numberOfCompleteTasks}:TasksProps) {
+
+    const [stateOfCheckbox, setStateOfCheckbox] = useState(Boolean)
+    const [stateDecorationOfCheckbox, setStateDecorationOfCheckbox] = useState('noLine')
+
+    if(stateOfCheckbox == true) numberOfCompleteTasks++;
+
+    console.log(numberOfCompleteTasks)
+
+    function handleCheckbox () {
+        setStateOfCheckbox(!stateOfCheckbox);
+
+        stateOfCheckbox === false ?
+            setStateDecorationOfCheckbox('line')
+        : setStateDecorationOfCheckbox('noLine')
+    }
 
     function handleDeleteTask() {
         onDeleteTask(idTasks);
     }
 
-    function checkCheckbox (){
-        const checkbox = document.getElementById(
-            'checkboxTask',
-        ) as HTMLInputElement;
-
-        const changeDecoration = document.getElementById(
-            'changeDecoration',
-        ) as HTMLInputElement;
-        
-        if (checkbox?.checked) {
-            setCheckboxOfTask(true);
-            changeDecoration.style.textDecoration = 'line-through';
-        } else {
-            setCheckboxOfTask(false);
-            changeDecoration.style.textDecoration = 'none';
-        }
-    }
-
     return (
-        <section className={styles.taskList}>
-                <div className={styles.contentTasks} key={idTasks}>
+        <section className="taskList">
+                <div className="contentTasks" key={idTasks}>
                     <label>
-                        <input id="checkboxTask" type="checkbox" name="check" onClick={checkCheckbox}></input>     
-                        <p id="changeDecoration">{contentTasks}</p>
+                        <input 
+                            type="checkbox" 
+                            id="checkbox"
+                            value={idTasks}
+                            checked={stateOfCheckbox}
+                            onChange={handleCheckbox}
+                        ></input>     
+                        <p className={stateDecorationOfCheckbox}>{contentTasks}</p>
                     </label>
                     <button onClick={handleDeleteTask}>
                         <Trash size={24} />
