@@ -5,26 +5,25 @@ import { useState } from "react"
 interface TasksProps {
     idTasks: number,
     contentTasks: string,
-    onDeleteTask: (id: number) => void
+    onDeleteTask: (id: number) => void,
+    numberOfCompleteTasks: number
 }
 
-export function TaskList ({idTasks, contentTasks, onDeleteTask}:TasksProps) {
-    let quantCompleteTasks = 0;
+export function TaskList ({idTasks, contentTasks, onDeleteTask, numberOfCompleteTasks}:TasksProps) {
 
     const [stateOfCheckbox, setStateOfCheckbox] = useState(Boolean)
     const [stateDecorationOfCheckbox, setStateDecorationOfCheckbox] = useState('noLine')
-    const [valueCompleteTasks, setValueCompleteTasks] = useState(Number)
+
+    if(stateOfCheckbox == true) numberOfCompleteTasks++;
+
+    console.log(numberOfCompleteTasks)
 
     function handleCheckbox () {
         setStateOfCheckbox(!stateOfCheckbox);
 
-        stateOfCheckbox === false ? (
-            setStateDecorationOfCheckbox('line'),
-            quantCompleteTasks++,
-            setValueCompleteTasks(quantCompleteTasks)
-        ) : setStateDecorationOfCheckbox('noLine')
-
-        console.log(valueCompleteTasks)
+        stateOfCheckbox === false ?
+            setStateDecorationOfCheckbox('line')
+        : setStateDecorationOfCheckbox('noLine')
     }
 
     function handleDeleteTask() {

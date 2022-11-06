@@ -103,6 +103,7 @@ export function Task () {
                             idTasks={task.id}
                             contentTasks={task.content}
                             onDeleteTask={onDeleteTask}
+                            numberOfCompleteTasks={numberOfCompleteTasks}
                         />
                     ))
             }
