@@ -59,3 +59,24 @@
 .task button[type='submit'] span{
     padding-right: 0.5rem;
 }
+
+@media (max-width: 768px) {
+    .task {
+        align-items: center;
+        justify-content: center;
+        margin-top: -1.25rem;
+        margin-bottom: 3.75rem;
+    }
+    .task input[type='text'] {
+        width: 14rem;
+        height: 2.5rem;
+        
+        font-size: 0.875rem;
+    }
+    .task button[type='submit'] {
+        width: 5rem;
+        height: 2.5rem;
+        
+        font-size: 0.875rem;
+    }
+}

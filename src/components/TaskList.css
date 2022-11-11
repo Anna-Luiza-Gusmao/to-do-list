@@ -62,3 +62,19 @@
 .contentTasks button:hover {
     color: var(--danger);
 }
+
+@media (max-width: 768px) {
+    .taskList {
+        width: 20rem;
+    }
+    .contentTasks {
+        padding: 1.25rem 1.125rem;
+    }
+    .contentTasks input[type="checkbox"]{
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+    .contentTasks p {
+        font-size: 0.875rem;
+    }
+}
