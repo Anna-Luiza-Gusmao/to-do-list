@@ -29,3 +29,20 @@
     color: var(--purple);
     padding-right: 0.5rem;
 }
+
+@media (max-width: 768px) {
+    .headerTaskList {
+        width: 20rem;
+    }
+    .contentParagraphCriadas p {
+        padding-right: 0.2rem;
+        font-size: 0.875rem;
+    }
+    .contentParagraphConcluidas p {
+        padding-right: 0.2rem;
+        font-size: 0.875rem;
+    }
+    .contentParagraphCriadas span, .contentParagraphConcluidas span {
+        font-size: 0.875rem;
+    }
+}
